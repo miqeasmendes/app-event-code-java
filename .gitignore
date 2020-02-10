@@ -24,3 +24,6 @@ hs_err_pid*
 
 .idea
 app-event-code-java.iml
+
+target
+resources

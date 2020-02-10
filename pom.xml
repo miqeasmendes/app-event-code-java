@@ -40,7 +40,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>com.cvmendes.java.appeventcode.controller.Controller</mainClass>
+                            <mainClass>com.cvmendes.java.appeventcode.controller.AccueilController</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
