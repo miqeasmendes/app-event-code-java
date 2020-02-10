@@ -1,4 +1,4 @@
-package com.cvmendes.java.appeventcode.model;
+package com.cvmendes.java.appeventcode.model.databaseConnexion;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

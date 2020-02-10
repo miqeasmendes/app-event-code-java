@@ -1,4 +1,4 @@
-package com.cvmendes.java.appeventcode.model.pojo;
+package com.cvmendes.java.appeventcode.model.entities;
 
 public class Billet {
     private long id;

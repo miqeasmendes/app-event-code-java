@@ -1,4 +1,4 @@
-package com.cvmendes.java.appeventcode.model.pojo;
+package com.cvmendes.java.appeventcode.model.entities;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,10 +10,19 @@ public class Organisateur {
     private long parrainId;
     private String mail;
     private String password;
+    private long parrainMail;
     List<Organisateur> data = new ArrayList<>();
     Date dateDerniereConnexion = new Date();
 
     public Organisateur() {
+    }
+
+    public long getParrainMail() {
+        return parrainMail;
+    }
+
+    public void setParrainMail(long parrainMail) {
+        this.parrainMail = parrainMail;
     }
 
     public List<Organisateur> getData() {
