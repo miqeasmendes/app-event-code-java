@@ -16,26 +16,38 @@ public class OrganisateurDao implements OrganisateurDAO {
                 + "WHERE mail = ? AND password = ?  LIMIT 1";
 
         Connection connection = DatabaseConnexion.getConnection();
-
         PreparedStatement stmt = connection.prepareStatement(query);
         stmt.setString(1, mail);
         stmt.setString(2, password);
 
         ResultSet rs = stmt.executeQuery();
-
         Organisateur organisateur = new Organisateur();
         if (!rs.next())
             return null;
 
         organisateur.setId(rs.getInt("id"));
         organisateur.setMail(rs.getString("mail"));
-        organisateur.setPassword("password");
-
-        //List<Organisateur> data = new ArrayList<>();
-        //data.add(organisateur);
-
-       // System.out.println(data);
+        organisateur.setTypeCompteId(rs.getInt("type_compte_Id"));
+        organisateur.setParrainId(rs.getInt("parrain_Id"));
+        organisateur.setParrainMail(parrainMail(organisateur.getParrainId()));
 
         return organisateur;
+    }
+
+    public String parrainMail(long id) throws SQLException {
+        String query = "SELECT mail FROM organisateur "
+                + "WHERE id = ? LIMIT 1";
+        Connection connection = DatabaseConnexion.getConnection();
+
+        PreparedStatement stmt = connection.prepareStatement(query);
+        stmt.setLong(1, id);
+        ResultSet rs = stmt.executeQuery();
+
+        Organisateur organisateur = new Organisateur();
+        if (!rs.next())
+            return null;
+
+        organisateur.setMail(rs.getString("mail"));
+        return organisateur.getMail();
     }
 }

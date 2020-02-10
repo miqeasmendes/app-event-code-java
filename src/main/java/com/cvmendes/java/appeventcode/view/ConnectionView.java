@@ -1,44 +1,18 @@
 package com.cvmendes.java.appeventcode.view;
 
-
-import com.cvmendes.java.appeventcode.model.databaseConnexion.DatabaseConnexion;
-import com.cvmendes.java.appeventcode.model.entities.Organisateur;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class ConnectionView extends JFrame {
 
     private JPanel contentPane;
-    private JTextField txtEmail;
-    private JPasswordField txtPassword;
+    public JTextField txtEmail;
+    public JPasswordField txtPassword;
+    public JButton btnSeConnecter;
 
-    /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    ConnectionView frame = new ConnectionView();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    /**
-     * Create the frame.
-     */
     public ConnectionView() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 450, 300);
@@ -73,54 +47,7 @@ public class ConnectionView extends JFrame {
         txTitre.setBounds(178, 29, 108, 16);
         contentPane.add(txTitre);
 
-        JButton btnSeConnecter = new JButton("Se connecter");
-        btnSeConnecter.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-
-                try{
-
-                    String mail = txtEmail.getText();
-                    String password = txtPassword.getText();
-                    Connection connection = DatabaseConnexion.getConnection();
-
-                    String query = "SELECT * FROM organisateur WHERE mail = ? AND password = ? LIMIT 1";
-                    PreparedStatement st = connection.prepareStatement(query);
-
-                    st.setString(1, mail);
-                    st.setString(2, password);
-
-                    ResultSet rs = st.executeQuery();
-
-                    Organisateur organisateur = new Organisateur();
-
-                    if(rs.next()) {
-                        setVisible(false);
-                        organisateur.setId(rs.getInt("id"));
-                        organisateur.setMail(rs.getString("mail"));
-                        organisateur.setTypeCompteId(rs.getInt("type_compte_Id"));
-                        organisateur.setParrainId(rs.getInt("parrain_Id"));
-
-                        AccueilView frame = new AccueilView();
-                        frame.lblOrg.setText("Id : " + organisateur.getId() + " | Mail du Parrain : " + organisateur.getParrainId() + " | Email : " + organisateur.getMail() + " | Type de compte : "+ organisateur.getTypeCompteId() + " | Dernière connection : " + organisateur.getDateDerniereConnexion());
-                        frame.lblOrg.setBounds(25, 72, 750, 16);
-                        frame.setVisible(true);
-
-                    }else {
-                        JOptionPane.showMessageDialog(null, "Identifiants incorrects: veuillez réessayer", "Erreur de connection", JOptionPane.ERROR_MESSAGE);
-                        txtEmail.setText(null);
-                        txtPassword.setText(null);
-                    }
-                }catch (SQLException e1) {
-                    System.out.println("Erreur de connection");
-                   // e1.printStackTrace();
-                }
-
-
-
-
-            }
-        });
-
+        btnSeConnecter = new JButton("Se connecter");
         btnSeConnecter.setFont(new Font("Dialog", Font.BOLD, 16));
         btnSeConnecter.setBounds(163, 224, 136, 29);
         contentPane.add(btnSeConnecter);
@@ -128,7 +55,6 @@ public class ConnectionView extends JFrame {
         JButton btnReset = new JButton("Reset");
         btnReset.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
                 txtEmail.setText(null);
                 txtPassword.setText(null);
             }

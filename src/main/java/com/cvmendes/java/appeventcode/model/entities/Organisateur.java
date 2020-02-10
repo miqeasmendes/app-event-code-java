@@ -10,18 +10,18 @@ public class Organisateur {
     private long parrainId;
     private String mail;
     private String password;
-    private long parrainMail;
+    private String parrainMail;
     List<Organisateur> data = new ArrayList<>();
     Date dateDerniereConnexion = new Date();
 
     public Organisateur() {
     }
 
-    public long getParrainMail() {
+    public String getParrainMail() {
         return parrainMail;
     }
 
-    public void setParrainMail(long parrainMail) {
+    public void setParrainMail(String parrainMail) {
         this.parrainMail = parrainMail;
     }
 
