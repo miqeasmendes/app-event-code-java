@@ -1,5 +1,6 @@
 package com.cvmendes.java.appeventcode.controller;
 
+import com.cvmendes.java.appeventcode.model.dao.EvenementDao;
 import com.cvmendes.java.appeventcode.model.dao.OrganisateurDao;
 import com.cvmendes.java.appeventcode.model.databaseConnexion.DatabaseConnexion;
 import com.cvmendes.java.appeventcode.model.entities.Organisateur;
@@ -10,6 +11,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 public class ConnectionController {
@@ -32,8 +34,11 @@ public class ConnectionController {
 
                                 AccueilView frame = new AccueilView();
                                 OrganisateurDao organisateurDao = new OrganisateurDao();
-                                Organisateur organisateur = organisateurDao.orgConnection(mail, password);
-                                frame.lblOrg.setText("Id : " + organisateur.getId() + " | Email : " + organisateur.getMail() + " | Type de compte : " + organisateur.getTypeCompteId() + " | Parrain : " + organisateur.getParrainMail());
+                                Connection connection = DatabaseConnexion.getConnection();
+
+                                Organisateur organisateur = OrganisateurDao.findOne(connection, mail, password);
+
+                                frame.lblOrg.setText("Id : " + organisateur.getId() + " | Email : " + organisateur.getMail() + " | Type de compte : " + organisateur.getTypeCompte() + " | Parrain : " + organisateur.getParrainMail());
                                 frame.lblOrg.setBounds(25, 72, 750, 16);
                                 cv.setVisible(false);
                                 frame.setVisible(true);
@@ -45,7 +50,7 @@ public class ConnectionController {
                             }
                         }catch (SQLException e1) {
                             System.out.println("Erreur de connection");
-                            // e1.printStackTrace();
+                            e1.printStackTrace();
                         }
                     })).start()
             );

@@ -11,10 +11,19 @@ public class Organisateur {
     private String mail;
     private String password;
     private String parrainMail;
-    List<Organisateur> data = new ArrayList<>();
+    private String typeCompte;
+    List<Evenement> listEvent = new ArrayList<>();
     Date dateDerniereConnexion = new Date();
 
     public Organisateur() {
+    }
+
+    public String getTypeCompte() {
+        return typeCompte;
+    }
+
+    public void setTypeCompte(String typeCompte) {
+        this.typeCompte = typeCompte;
     }
 
     public String getParrainMail() {
@@ -25,12 +34,12 @@ public class Organisateur {
         this.parrainMail = parrainMail;
     }
 
-    public List<Organisateur> getData() {
-        return data;
+    public List<Evenement> getData() {
+        return listEvent;
     }
 
-    public void setData(List<Organisateur> data) {
-        this.data = data;
+    public void setData(List<Evenement> data) {
+        this.listEvent = data;
     }
 
     public long getId() {
@@ -85,6 +94,9 @@ public class Organisateur {
                 ", parrainId=" + parrainId +
                 ", mail='" + mail + '\'' +
                 ", password='" + password + '\'' +
+                ", parrainMail='" + parrainMail + '\'' +
+                ", typeCompte='" + typeCompte + '\'' +
+                ", data=" + listEvent +
                 ", dateDerniereConnexion=" + dateDerniereConnexion +
                 '}';
     }

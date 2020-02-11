@@ -1,19 +1,18 @@
 package com.cvmendes.java.appeventcode.model.dao;
 
 import com.cvmendes.java.appeventcode.interfaces.OrganisateurDAO;
-import com.cvmendes.java.appeventcode.model.databaseConnexion.DatabaseConnexion;
 import com.cvmendes.java.appeventcode.model.entities.Organisateur;
+import com.cvmendes.java.appeventcode.model.handler.OrganisateurHandler;
+import org.apache.commons.dbutils.QueryRunner;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class OrganisateurDao implements OrganisateurDAO {
 
-    @Override
+   /* @Override
     public Organisateur orgConnection(String mail, String password) throws SQLException {
-        String query = "SELECT * FROM organisateur "
-                + "WHERE mail = ? AND password = ?  LIMIT 1";
+        String query = "SELECT o.*, tc.nom, og.mail as mailParrain  FROM organisateur o INNER JOIN organisateur og ON og.id=o.parrain_id INNER JOIN type_compte tc ON tc.id = o.type_compte_id where o.mail = ? and o.password = ?";
+
 
         Connection connection = DatabaseConnexion.getConnection();
         PreparedStatement stmt = connection.prepareStatement(query);
@@ -29,25 +28,27 @@ public class OrganisateurDao implements OrganisateurDAO {
         organisateur.setMail(rs.getString("mail"));
         organisateur.setTypeCompteId(rs.getInt("type_compte_Id"));
         organisateur.setParrainId(rs.getInt("parrain_Id"));
-        organisateur.setParrainMail(parrainMail(organisateur.getParrainId()));
+        //organisateur.setParrainMail(parrainMail(organisateur.getParrainId()));
+        organisateur.setTypeCompte(rs.getString("nom"));
+        organisateur.setParrainMail(rs.getString("mail"));
 
         return organisateur;
-    }
+    }*/
 
-    public String parrainMail(long id) throws SQLException {
-        String query = "SELECT mail FROM organisateur "
-                + "WHERE id = ? LIMIT 1";
-        Connection connection = DatabaseConnexion.getConnection();
+    public Organisateur findOne(Connection connection, String mail, String password) throws SQLException {
 
-        PreparedStatement stmt = connection.prepareStatement(query);
-        stmt.setLong(1, id);
-        ResultSet rs = stmt.executeQuery();
+        //BeanHandler beanHandler = new BeanHandler(Organisateur.class);
+        OrganisateurHandler organisateurHandler = new OrganisateurHandler();
+        QueryRunner runner = new QueryRunner();
+        String query = "SELECT org.*, tc.nom, og.mail as mailParrain  "
+                     + "FROM organisateur org "
+                     + "INNER JOIN organisateur og "
+                     + "ON og.id=org.parrain_id "
+                     + "INNER JOIN type_compte tc "
+                     + "ON tc.id = org.type_compte_id "
+                     + "WHERE org.mail = ? AND org.password = ?";
 
-        Organisateur organisateur = new Organisateur();
-        if (!rs.next())
-            return null;
-
-        organisateur.setMail(rs.getString("mail"));
-        return organisateur.getMail();
+        Organisateur organisateur = runner.query(connection, query, organisateurHandler, mail, password);
+        return organisateur;
     }
 }
