@@ -1,19 +1,48 @@
 package com.cvmendes.java.appeventcode.model.entities;
 
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class Evenement {
     private long id;
-    private int organisateurId;
+    private long organisateurId;
     private String nom;
-    private Date dateEvenement;
+    private Timestamp dateEvenement;
     private Organisateur organisateur;
+    private long nbBilletsMax;
+    private long nbBilletsVendus;
+    private long nbBilletsPanier;
     private List<Organisateur> list = new ArrayList<>();
 
 
     public Evenement() {
+    }
+
+    public long getNbBilletsMax() {
+        return nbBilletsMax;
+    }
+
+    public void setNbBilletsMax(long nbBilletsMax) {
+        this.nbBilletsMax = nbBilletsMax;
+    }
+
+    public long getNbBilletsVendus() {
+        return nbBilletsVendus;
+    }
+
+    public void setNbBilletsVendus(long nbBilletsVendus) {
+        this.nbBilletsVendus = nbBilletsVendus;
+    }
+
+    public long getNbBilletsPanier() {
+        return nbBilletsPanier;
+    }
+
+    public void setNbBilletsPanier(long nbBilletsPanier) {
+        this.nbBilletsPanier = nbBilletsPanier;
     }
 
     public List<Organisateur> getList() {
@@ -32,12 +61,12 @@ public class Evenement {
         this.id = id;
     }
 
-    public int getOrganisateurId() {
+    public long getOrganisateurId() {
         return organisateurId;
     }
 
-    public void setOrganisateurId(List<Organisateur> organisateurId) {
-        this.organisateurId = organisateurId.size();
+    public void setOrganisateurId(long organisateurId) {
+        this.organisateurId = organisateurId;
     }
 
     public Organisateur getOrganisateur() {
@@ -56,20 +85,23 @@ public class Evenement {
         this.nom = noml;
     }
 
-    public Date getDateEvenement() {
+    public Timestamp getDateEvenement() {
         return dateEvenement;
     }
 
-    public void setDateEvenement(Date dateEvenement) {
+    public void setDateEvenement(Timestamp dateEvenement) {
         this.dateEvenement = dateEvenement;
     }
 
     @Override
     public String toString() {
         return "Evenement{" +
-                "id=" + id +
+                "organisateurId=" + organisateurId +
                 ", nom='" + nom + '\'' +
-                ", organisateur=" + organisateur +
+                ", dateEvenement=" + dateEvenement +
+                ", nbBilletsMax=" + nbBilletsMax +
+                ", nbBilletsVendus=" + nbBilletsVendus +
+                ", nbBilletsPanier=" + nbBilletsPanier +
                 '}';
     }
 }

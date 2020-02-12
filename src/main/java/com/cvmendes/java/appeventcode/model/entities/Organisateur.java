@@ -12,7 +12,7 @@ public class Organisateur {
     private String password;
     private String parrainMail;
     private String typeCompte;
-    List<Evenement> listEvent = new ArrayList<>();
+    private List<Evenement> listEvent = new ArrayList<>();
     Date dateDerniereConnexion = new Date();
 
     public Organisateur() {
@@ -34,11 +34,11 @@ public class Organisateur {
         this.parrainMail = parrainMail;
     }
 
-    public List<Evenement> getData() {
+    public List<Evenement> getListEvent() {
         return listEvent;
     }
 
-    public void setData(List<Evenement> data) {
+    public void setListEvent(List<Evenement> data) {
         this.listEvent = data;
     }
 

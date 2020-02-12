@@ -8,11 +8,11 @@ import com.cvmendes.java.appeventcode.view.AccueilView;
 import com.cvmendes.java.appeventcode.view.ConnectionView;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.ParseException;
 
 public class ConnectionController {
 
@@ -36,19 +36,27 @@ public class ConnectionController {
                                 OrganisateurDao organisateurDao = new OrganisateurDao();
                                 Connection connection = DatabaseConnexion.getConnection();
 
-                                Organisateur organisateur = OrganisateurDao.findOne(connection, mail, password);
+                                Organisateur organisateur = organisateurDao.findOne(connection, mail, password);
 
                                 frame.lblOrg.setText("Id : " + organisateur.getId() + " | Email : " + organisateur.getMail() + " | Type de compte : " + organisateur.getTypeCompte() + " | Parrain : " + organisateur.getParrainMail());
                                 frame.lblOrg.setBounds(25, 72, 750, 16);
                                 cv.setVisible(false);
                                 frame.setVisible(true);
 
+
+
+                                JTable eventTable = new JTable(new TableModel(organisateur.getListEvent()));
+                                System.out.println(organisateur.getListEvent());
+                                frame.scrollPane.getViewport().add(eventTable);
+                                frame.pack();
+                                frame.setBounds(100, 100, 800, 600);
+
                             }else {
                                 JOptionPane.showMessageDialog(null, "Identifiants incorrects: veuillez réessayer", "Erreur de connection", JOptionPane.ERROR_MESSAGE);
                                 cv.txtEmail.setText(null);
                                 cv.txtPassword.setText(null);
                             }
-                        }catch (SQLException e1) {
+                        }catch (SQLException | ParseException e1) {
                             System.out.println("Erreur de connection");
                             e1.printStackTrace();
                         }

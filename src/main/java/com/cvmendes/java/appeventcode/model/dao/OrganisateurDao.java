@@ -1,13 +1,15 @@
 package com.cvmendes.java.appeventcode.model.dao;
 
-import com.cvmendes.java.appeventcode.interfaces.OrganisateurDAO;
+import com.cvmendes.java.appeventcode.model.entities.Evenement;
 import com.cvmendes.java.appeventcode.model.entities.Organisateur;
 import com.cvmendes.java.appeventcode.model.handler.OrganisateurHandler;
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import java.sql.*;
+import java.text.ParseException;
 
-public class OrganisateurDao implements OrganisateurDAO {
+public class OrganisateurDao {
 
    /* @Override
     public Organisateur orgConnection(String mail, String password) throws SQLException {
@@ -35,10 +37,10 @@ public class OrganisateurDao implements OrganisateurDAO {
         return organisateur;
     }*/
 
-    public Organisateur findOne(Connection connection, String mail, String password) throws SQLException {
+    public static Organisateur findOne(Connection connection, String mail, String password) throws SQLException {
 
-        //BeanHandler beanHandler = new BeanHandler(Organisateur.class);
-        OrganisateurHandler organisateurHandler = new OrganisateurHandler();
+        OrganisateurHandler organisateurHandler = new OrganisateurHandler(connection);
+
         QueryRunner runner = new QueryRunner();
         String query = "SELECT org.*, tc.nom, og.mail as mailParrain  "
                      + "FROM organisateur org "
@@ -50,5 +52,24 @@ public class OrganisateurDao implements OrganisateurDAO {
 
         Organisateur organisateur = runner.query(connection, query, organisateurHandler, mail, password);
         return organisateur;
+    }
+
+    public static void persist(Evenement event, Connection connection) throws SQLException, ParseException {
+
+        if(event.getId() == 0){
+
+            ScalarHandler<Integer> scalarHandler = new ScalarHandler<>();
+            QueryRunner runner = new QueryRunner();
+            String query = "INSERT INTO evenement (nom, date_evenement) VALUES (?, ?)";
+            int newId = runner.insert(connection, query, scalarHandler, event.getNoml(), event.getDateEvenement());
+
+            event.setId(newId);
+
+        } else {
+
+            QueryRunner runner = new QueryRunner();
+            String query = "UPDATE evenement SET nom = ?, date_evenement = ? WHERE id = ?";
+            runner.update(connection, query, event.getNoml(), event.getDateEvenement(), event.getId());
+        }
     }
 }

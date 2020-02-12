@@ -1,7 +1,5 @@
 package com.cvmendes.java.appeventcode;
 
-
-import com.cvmendes.java.appeventcode.controller.AccueilController;
 import com.cvmendes.java.appeventcode.controller.ConnectionController;
 
 public class App {
